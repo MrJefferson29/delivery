@@ -22,7 +22,7 @@ const app = express() ;
 
 app.use(express.json())
 app.use(cors({
-    origin: 'https://www.kandqcourier.xyz/',
+    origin: 'https://kandqcourier.xyz',
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
 }))
