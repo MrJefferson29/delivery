@@ -8,7 +8,7 @@ const userRoute = require("./user")
 const commentRoute = require("./comment")
 
 router.use((req, res, next) => {
-    res.header("Access-Control-Allow-Origin", "*"); // You can replace "*" with your specific allowed origins.
+    res.header("Access-Control-Allow-Origin", "https://kandqcourier.services"); // You can replace "*" with your specific allowed origins.
     res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
     res.header("Access-Control-Allow-Headers", "Content-Type");
     next();
