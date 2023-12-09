@@ -8,44 +8,48 @@ const {searchHelper, paginateHelper} =require("../Helpers/query/queryHelpers");
     // Package status
     // Percentage delivered
     // Insurance Bargain
-const addStory = asyncErrorWrapper(async  (req,res,next)=> {
+const addStory = asyncErrorWrapper(async (req, res, next) => {
+    const { title, content, status, insurrance, slider, address } = req.body;
 
-    const {title, content, status, insurrance, slider, address} = req.body 
-
-    var wordCount = content.trim().split(/\s+/).length ; 
-   
-    let readtime = Math.floor(wordCount /200)   ;
-
+    // Calculate word count and read time
+    const wordCount = content.trim().split(/\s+/).length;
+    const readtime = Math.floor(wordCount / 200);
 
     try {
+        // Create a new story
         const newStory = await Story.create({
             title,
             content,
-            status, 
-            insurrance, 
+            status,
+            insurrance,
             slider,
             address,
-            author :req.user._id ,
-            image : req.savedStoryImage,
-            readtime
-        })
+            author: req.user._id,
+            image: req.savedStoryImage,
+            readtime,
+        });
 
+        // Log success
+        console.log("Story created successfully:", newStory);
+
+        // Respond with success
         return res.status(200).json({
-            success :true ,
-            message : "add story successfully ",
-            data: newStory
-        })
+            success: true,
+            message: "Add story successfully",
+            data: newStory,
+        });
+    } catch (error) {
+        // Log error
+        console.error("Error while adding story:", error);
+
+        // Delete image file if it exists
+        deleteImageFile(req);
+
+        // Pass the error to the next middleware (likely an error handler)
+        return next(error);
     }
+});
 
-    catch(error) {
-
-        deleteImageFile(req)
-
-        return next(error)
-        
-    }
-  
-})
 
 const getAllStories = asyncErrorWrapper( async (req,res,next) =>{
 
